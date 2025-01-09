@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace = "ir.erfansn.nativecodeplayground"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "ir.erfansn.nativecodeplayground"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -37,10 +37,17 @@ android {
     buildFeatures {
         compose = true
     }
+
+    ndkVersion = "25.2.9519653"
+    externalNativeBuild {
+        cmake {
+            path = file("src/main/cpp/CMakeLists.txt")
+            version = "3.22.1"
+        }
+    }
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

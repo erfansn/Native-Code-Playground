@@ -28,6 +28,8 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+    external fun stringFromJNI(): String
 }
 
 @Composable
