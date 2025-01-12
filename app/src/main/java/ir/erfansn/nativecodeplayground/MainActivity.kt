@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -11,25 +12,33 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import ir.erfansn.nativecodeplayground.swig.example
 import ir.erfansn.nativecodeplayground.ui.theme.NativeCodePlaygroundTheme
 
 class MainActivity : ComponentActivity() {
+
+    init {
+        System.loadLibrary("example-swig")
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             NativeCodePlaygroundTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    Column(modifier = Modifier.padding(innerPadding)) {
+                        Greeting(
+                            name = stringFromJNI(),
+                        )
+                        Text("gcd(10, 20) = ${example.gcd(10, 20)}")
+                    }
                 }
             }
         }
     }
 
-    external fun stringFromJNI(): String
+    private external fun stringFromJNI(): String
 }
 
 @Composable

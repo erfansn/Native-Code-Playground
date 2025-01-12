@@ -11,6 +11,10 @@ cmake_minimum_required(VERSION 3.22.1)
 # build script scope).
 project("nativecodeplayground")
 
+find_package(SWIG REQUIRED)
+include(UseSWIG)
+set(CMAKE_SWIG_FLAGS -package ir.erfansn.nativecodeplayground.swig) # Custom package name parameter
+
 # Creates and names a library, sets it as either STATIC
 # or SHARED, and provides the relative paths to its source code.
 # You can define multiple libraries, and CMake builds them for you.
@@ -26,7 +30,16 @@ project("nativecodeplayground")
 # used in the AndroidManifest.xml file.
 add_library(${CMAKE_PROJECT_NAME} SHARED
         # List C/C++ source files with relative paths to this CMakeLists.txt.
-        native-lib.cpp)
+        native-lib.cpp
+        example.c)
+
+swig_add_library(
+        example-swig # name
+        LANGUAGE java # language
+        SOURCES ${CMAKE_SOURCE_DIR}/../swig/example-interface.i # interface file
+        OUTFILE_DIR ${CMAKE_SOURCE_DIR}/../../../build/generated/source/swig/main/cpp/ # output wrapper file path
+        OUTPUT_DIR ${CMAKE_SOURCE_DIR}/../../../build/generated/swig/main/java/ir/erfansn/nativecodeplayground/swig # output Java files path
+)
 
 # Specifies libraries CMake should link to your target library. You
 # can link libraries from various origins, such as libraries defined in this
@@ -35,3 +48,5 @@ target_link_libraries(${CMAKE_PROJECT_NAME}
         # List libraries link to the target library
         android
         log)
+
+target_link_libraries(example-swig ${CMAKE_PROJECT_NAME})

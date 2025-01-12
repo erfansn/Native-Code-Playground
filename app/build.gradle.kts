@@ -45,6 +45,12 @@ android {
             version = "3.22.1"
         }
     }
+
+    sourceSets {
+        getByName("main") {
+            java.srcDir("build/generated/swig/main/java")
+        }
+    }
 }
 
 dependencies {
