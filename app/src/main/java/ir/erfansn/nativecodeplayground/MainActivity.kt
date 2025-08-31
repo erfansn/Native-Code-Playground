@@ -26,19 +26,10 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             NativeCodePlaygroundTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Column(modifier = Modifier.padding(innerPadding)) {
-                        Text("With JNI:")
-                        Greeting(
-                            name = concatenateMembersNameJni(company),
-                        )
-                        Spacer(modifier = Modifier.height(16.dp))
-                        Text("With JNI Bind:")
-                        Greeting(
-                            name = concatenateMembersNameJniBind(company),
-                        )
-                    }
-                }
+                NativeCodeApp(
+                    concatenateMembersNameJni(company),
+                    concatenateMembersNameJniBind(company)
+                )
             }
         }
     }
@@ -55,17 +46,26 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
+private fun NativeCodeApp(
+    withJniName: String,
+    withJniBindName: String
+) {
+    Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+        Column(modifier = Modifier.padding(innerPadding)) {
+            Text("With JNI: $withJniName")
+            Spacer(modifier = Modifier.height(16.dp))
+            Text("With JNI Bind: $withJniBindName")
+        }
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun NativeCodeAppPreview() {
     NativeCodePlaygroundTheme {
-        Greeting("Android")
+        NativeCodeApp(
+            "Fake",
+            "Fake"
+        )
     }
 }
