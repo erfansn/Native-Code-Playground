@@ -1,6 +1,8 @@
 #include <jni.h>
 #include <string>
-#include "jni_bind.h"
+#include "external/jni_bind/jni_bind.h"
+#include "external/math2/include/math2.h"
+#include <another_file.h>
 
 extern "C"
 JNIEXPORT jstring JNICALL
@@ -18,6 +20,8 @@ Java_ir_erfansn_nativecodeplayground_MainActivity_concatenateMembersNameJni(JNIE
         auto staff = (jstring) env->CallObjectMethod(staffsJObject, listGetMethodId, i);
         names += env->GetStringUTFChars(staff, nullptr);
     }
+
+    auto sum = plus(1, 2);
 
     return env->NewStringUTF(names.c_str());
 }
@@ -46,6 +50,8 @@ Java_ir_erfansn_nativecodeplayground_MainActivity_concatenateMembersNameJniBind(
         auto name = jni::LocalString{nameObject.Release()};
         names += std::string(name.Pin().ToString());
     }
+
+    auto hello_name = hello();
 
     return env->NewStringUTF(names.c_str());
 }
